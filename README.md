@@ -2,7 +2,7 @@
 最常用的宏定义
 
 ## 添加方法
-点击项目 -> `Build Setting` -> 双击 `Prefix Header` -> 填写 `$(SRCROOT)/$(PROJECT_NAME)/PrefixHeader.pch`
+点击项目 -> `Build Setting` -> 双击 `Prefix Header` -> 填写 `$(SRCROOT)/$(PROJECT_NAME)/PrefixHeader.pch`  
 编译项目
 
 ## 注意事项
