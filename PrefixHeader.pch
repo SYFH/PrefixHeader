@@ -3,22 +3,21 @@
 
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
-//$(SRCROOT)/$(PROJECT_NAME)/PrefixHeader.pch
 
 #pragma mark - 屏幕 & 尺寸 -
 //---------------------- 屏幕 & 尺寸 ----------------------------
 /**
  iPad Air {{0, 0}, {768, 1024}}
- iphone4s {{0, 0}, {320, 480}}      960*640
- iphone5 5s {{0, 0}, {320, 568}}    1136*640
- iphone6 6s {{0, 0}, {375, 667}}    1334*750
- iphone6Plus 6sPlus {{0, 0}, {414, 736}}    1920*1080
+ iphone4s {{0, 0}, {320, 480}}     960*640
+ iphone5 5s {{0, 0}, {320, 568}}      1136*640
+ iphone6 6s {{0, 0}, {375, 667}}     1334*750
+ iphone6Plus 6sPlus {{0, 0}, {414, 736}}  1920*1080
  Apple Watch 1.65inches(英寸) 320*640
  */
 
-#define DEF_SCREEN_WIDTH    ([UIScreen mainScreen].bounds.size.width)
-#define DEF_SCREEN_HEIGHT   ([UIScreen mainScreen].bounds.size.height)
-#define DEF_SCREEN_BOUNDS   ([UIScreen mainScreen].bounds)
+#define DEF_SCREEN_WIDTH ([UIScreen mainScreen].bounds.size.width)
+#define DEF_SCREEN_HEIGHT ([UIScreen mainScreen].bounds.size.height)
+#define DEF_SCREEN_BOUNDS ([UIScreen mainScreen].bounds)
 #define DEF_TAB_BAR_HEIGHT        49.0f
 #define DEF_STATUS_BAR_HEIGHT     20.0f
 #define DEF_NIVAGATION_BAR_HEIGHT 44.0f
@@ -84,11 +83,26 @@
 /** 获取当前语言 */
 #define kCurrentLanguage ([[NSLocale preferredLanguages] objectAtIndex:0])
 
+#pragma mark - 系统时间 -
+//---------------------- 系统当前时间 -------------------------
+#define DATE_COMPONENTS [[NSCalendar currentCalendar] components: NSCalendarUnitNanosecond | NSCalendarUnitSecond | NSCalendarUnitMinute | NSCalendarUnitHour | NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:[NSDate date]]
+
+#define DATE_COMPONENTS_YEAR         (long)DATE_COMPONENTS.year//年
+#define DATE_COMPONENTS_MOTH         (long)DATE_COMPONENTS.month//月
+#define DATE_COMPONENTS_DAY          (long)DATE_COMPONENTS.day//日
+#define DATE_COMPONENTS_HOUR         (long)DATE_COMPONENTS.hour//时
+#define DATE_COMPONENTS_MINUTE       (long)DATE_COMPONENTS.minute//分
+#define DATE_COMPONENTS_SECOND       (long)DATE_COMPONENTS.second//秒
+#define DATE_COMPONENTS_MILLISESCOND (long)(DATE_COMPONENTS.nanosecond * 0.000001)//毫秒
+#define DATE_COMPONENTS_MICROSECOND  (long)(DATE_COMPONENTS.nanosecond * 0.001)//微秒
+#define DATE_COMPONENTS_NANOSESCOND  (long)DATE_COMPONENTS.nanosecond//纳秒
+
+
 #pragma mark - 打印日志 -
 //---------------------- 打印日志 ----------------------------
 //调试模式下打印日志
 #ifdef DEBUG
-#define DLog(FORMAT, ...) fprintf(stderr,"%s:%d %s\t%s\n",[[[NSString stringWithUTF8String:__FILE__] lastPathComponent] UTF8String], __LINE__, __TIME__, [[NSString stringWithFormat:FORMAT, ##__VA_ARGS__] UTF8String]);
+#define DLog(FORMAT, ...) fprintf(stderr,"%s:%d\t%s\t%s\n",[[[NSString stringWithUTF8String:__FILE__] lastPathComponent] UTF8String], __LINE__, [[NSString stringWithFormat:@"%ld:%ld:%ld:%ld", DATE_COMPONENTS_HOUR, DATE_COMPONENTS_MINUTE, DATE_COMPONENTS_SECOND, DATE_COMPONENTS_MILLISESCOND] UTF8String], [[NSString stringWithFormat:FORMAT, ##__VA_ARGS__] UTF8String]);
 #else
 #define DLog(FORMAT, ...)
 #endif
