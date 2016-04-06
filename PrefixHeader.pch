@@ -4,6 +4,10 @@
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 
+#import "Macro.h"
+
+//$(SRCROOT)/$(PROJECT_NAME)/PrefixHeader.pch
+
 #pragma mark - 屏幕 & 尺寸 -
 //---------------------- 屏幕 & 尺寸 ----------------------------
 /**
@@ -18,6 +22,7 @@
 #define DEF_SCREEN_WIDTH ([UIScreen mainScreen].bounds.size.width)
 #define DEF_SCREEN_HEIGHT ([UIScreen mainScreen].bounds.size.height)
 #define DEF_SCREEN_BOUNDS ([UIScreen mainScreen].bounds)
+#define DEF_SCREEN_PROPORTION DEF_SCREEN_HEIGHT / DEF_SCREEN_WIDTH
 #define DEF_TAB_BAR_HEIGHT        49.0f
 #define DEF_STATUS_BAR_HEIGHT     20.0f
 #define DEF_NIVAGATION_BAR_HEIGHT 44.0f
@@ -97,12 +102,11 @@
 #define DATE_COMPONENTS_MICROSECOND  (long)(DATE_COMPONENTS.nanosecond * 0.001)//微秒
 #define DATE_COMPONENTS_NANOSESCOND  (long)DATE_COMPONENTS.nanosecond//纳秒
 
-
 #pragma mark - 打印日志 -
 //---------------------- 打印日志 ----------------------------
 //调试模式下打印日志
 #ifdef DEBUG
-#define DLog(FORMAT, ...) fprintf(stderr,"%s:%d\t%s\t%s\n",[[[NSString stringWithUTF8String:__FILE__] lastPathComponent] UTF8String], __LINE__, [[NSString stringWithFormat:@"%ld:%ld:%ld:%ld", DATE_COMPONENTS_HOUR, DATE_COMPONENTS_MINUTE, DATE_COMPONENTS_SECOND, DATE_COMPONENTS_MILLISESCOND] UTF8String], [[NSString stringWithFormat:FORMAT, ##__VA_ARGS__] UTF8String]);
+#define DLog(FORMAT, ...) fprintf(stderr,"%s:%d\t%s\t%s\n",[[[NSString stringWithUTF8String:__FILE__] lastPathComponent] UTF8String], __LINE__, [[NSString stringWithFormat:@"%02ld:%02ld:%02ld:%03ld", DATE_COMPONENTS_HOUR, DATE_COMPONENTS_MINUTE, DATE_COMPONENTS_SECOND, DATE_COMPONENTS_MILLISESCOND] UTF8String], [[NSString stringWithFormat:FORMAT, ##__VA_ARGS__] UTF8String]);
 #else
 #define DLog(FORMAT, ...)
 #endif
@@ -163,6 +167,12 @@
 #define FRAME_CHANGE_WIDTH(aFrame,w)      CGRectMake((aFrame).origin.x, (aFrame).origin.y, w, (aFrame).size.height)
 #define FRAME_CHANGE_HEIGHT(aFrame,h)     CGRectMake((aFrame).origin.x, (aFrame).origin.y, (aFrame).size.width, h)
 
+//获取frame的x、y、width、height
+#define FRAME_GET_X(aFrame) (aFrame).origin.x
+#define FRAME_GET_Y(aFrame) (aFrame).origin.y
+#define FRAME_GET_WIDTH(aFrame) (aFrame).size.width
+#define FRAME_GET_HEIGHT(aFrame) (aFrame).size.height
+
 //获取Image的宽高
 #define IMG_ImgWidth(img)        ((img).size.width)
 #define IMG_ImgHeight(img)       ((img).size.height)
@@ -216,19 +226,19 @@
 }
 
 //用户Document文件夹
-#define kPathDocument NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)
-#define kPathLibrary NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES)
+#define kPathDocument NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).lastObject
+#define kPathLibrary NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES).lastObject
 #define kPathTemp NSTemporaryDirectory()
-#define kPathCaches [User_Ceches stringByAppendingPathComponent:@"Caches"]
-#define kPathPreference [User_Ceches stringByAppendingPathComponent:@"Preferences"]
+#define kPathCaches NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES).lastObject
+#define kPathPreference [kPathLibrary stringByAppendingPathComponent:@"Preferences"]
 
 //AFN缓存Coockies文件夹
 #ifdef _AFNETWORKING_
-#define AFN_Cookies [User_Library stringByAppendingPathComponent:@"Cookies"]
+#define AFN_Cookies [kPathCaches stringByAppendingPathComponent:@"Cookies"]
 #endif
 
 //SDWebImage图片缓存文件夹
-#define SDWebImage_Cache [User_Caches stringByAppendingPathComponent:@"default"]
+#define SDWebImage_Cache [kPathCaches stringByAppendingPathComponent:@"default"]
 
 #pragma mark - weak-strong dance -
 //---------------------- weak-strong dance ------------------------
