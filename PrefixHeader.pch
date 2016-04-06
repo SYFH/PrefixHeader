@@ -4,8 +4,6 @@
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 
-#import "Macro.h"
-
 //$(SRCROOT)/$(PROJECT_NAME)/PrefixHeader.pch
 
 #pragma mark - 屏幕 & 尺寸 -
