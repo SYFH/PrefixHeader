@@ -132,9 +132,8 @@
 //---------------------- 颜色相关 ----------------------------
 #define RGBCOLOR(r,g,b)             [UIColor colorWithRed:(r)/255.0f green:(g)/255.0f blue:(b)/255.0f                                                                                        alpha:1]
 #define RGBACOLOR(r,g,b,a)          [UIColor colorWithRed:(r)/255.0f green:(g)/255.0f blue:(b)/255.0f                                                                                        alpha:(a)]
-//rgb颜色转换（16进制->10进制）
-#define UIColorFromRGB(rgbValue)    [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
-#define HexCOLOR(HexStr)            [UIColor colorWithHexString:HexStr]
+//rgb颜色转换(16进制->10进制), 格式: 0xffffff
+#define HEX_COLOR(HEX) [UIColor colorWithRed:((float)((HEX & 0xFF0000) >> 16))/255.0 green:((float)((HEX & 0xFF00) >> 8))/255.0 blue:((float)(HEX & 0xFF))/255.0 alpha:1.0]
 
 //随机颜色
 #define randomTo_255 arc4random_uniform(256)
@@ -147,9 +146,9 @@
 #define COLOR_Red             [UIColor redColor]
 #define COLOR_DarkGray        [UIColor darkGrayColor]
 #define COLOR_LightGray       [UIColor lightGrayColor]
-#define COLOR_GrayColor       [UIColor grayColor]
+#define COLOR_Gray            [UIColor grayColor]
 #define COLOR_Green           [UIColor greenColor]
-#define COLOR_BlueColor       [UIColor blueColor]
+#define COLOR_Blue            [UIColor blueColor]
 #define COLOR_Cyan            [UIColor cyanColor]
 #define COLOR_Yellow          [UIColor yellowColor]
 #define COLOR_Magenta         [UIColor magentaColor]
